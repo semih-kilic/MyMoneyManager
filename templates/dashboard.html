@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Dashboard</h2>
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                Recent Transactions
+            </div>
+            <div class="card-body">
+                {% if transactions %}
+                    <ul class="list-group">
+                    {% for transaction in transactions[-5:] %}
+                        <li class="list-group-item">
+                            {{ transaction.description }} - ${{ "%.2f"|format(transaction.amount) }}
+                            <small class="text-muted d-block">{{ transaction.date.strftime('%Y-%m-%d') }}</small>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No recent transactions</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                Upcoming Bills
+            </div>
+            <div class="card-body">
+                {% if bills %}
+                    <ul class="list-group">
+                    {% for bill in bills %}
+                        <li class="list-group-item">
+                            {{ bill.name }} - ${{ "%.2f"|format(bill.amount) }}
+                            <small class="text-muted d-block">Due: {{ bill.due_date.strftime('%Y-%m-%d') }}</small>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No upcoming bills</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                Budget Overview
+            </div>
+            <div class="card-body">
+                {% if budgets %}
+                    <ul class="list-group">
+                    {% for budget in budgets %}
+                        <li class="list-group-item">
+                            {{ budget.category }} - ${{ "%.2f"|format(budget.amount) }}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No budgets set</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

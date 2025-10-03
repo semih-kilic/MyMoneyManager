@@ -1,0 +1,13 @@
+[Unit]
+Description=Money Manager Flask Application
+After=network.target
+
+[Service]
+User=sam
+WorkingDirectory=/home/sam/APPS/moneymanager
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/usr/bin/python3 app.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

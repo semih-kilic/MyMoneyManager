@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Tax Records</h2>
+        <a href="{{ url_for('add_tax') }}" class="btn btn-primary">Add Tax Record</a>
+    </div>
+
+    {% if tax_records %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Income</th>
+                        <th>Tax Paid</th>
+                        <th>Deductions</th>
+                        <th>Effective Tax Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in tax_records %}
+                        <tr class="{{ 'table-info' if record.year == current_year else '' }}">
+                            <td>{{ record.year }}</td>
+                            <td>${{ '{:,.2f}'.format(record.income) }}</td>
+                            <td>${{ '{:,.2f}'.format(record.tax_paid) }}</td>
+                            <td>${{ '{:,.2f}'.format(record.deductions) }}</td>
+                            <td>{{ '{:.1f}%'.format((record.tax_paid / record.income) * 100) }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            No tax records found. <a href="{{ url_for('add_tax') }}">Add your first tax record</a>
+        </div>
+    {% endif %}
+
+    <div class="mt-4">
+        <div class="card">
+            <div class="card-header">
+                <h4>Tax Tips</h4>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>Keep all your tax receipts and documents organized</li>
+                    <li>Track your deductible expenses throughout the year</li>
+                    <li>Consider consulting with a tax professional for complex situations</li>
+                    <li>Stay informed about tax law changes that might affect you</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

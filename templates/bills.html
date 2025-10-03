@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Bills</h2>
+        <a href="{{ url_for('add_bill') }}" class="btn btn-primary">Add Bill</a>
+    </div>
+
+    {% if bills %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Due Date</th>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bill in bills %}
+                        <tr class="{{ 'table-danger' if bill.status == 'unpaid' and bill.due_date < now else '' }}">
+                            <td>{{ bill.due_date.strftime('%Y-%m-%d') }}</td>
+                            <td>{{ bill.name }}</td>
+                            <td>${{ '%.2f'|format(bill.amount) }}</td>
+                            <td>
+                                <span class="badge badge-{{ 'success' if bill.status == 'paid' else 'danger' }}">
+                                    {{ bill.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <form action="{{ url_for('toggle_bill_status', bill_id=bill.id) }}" method="POST" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-{{ 'success' if bill.status == 'unpaid' else 'warning' }}">
+                                        Mark as {{ 'Paid' if bill.status == 'unpaid' else 'Unpaid' }}
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            No bills found. <a href="{{ url_for('add_bill') }}">Add your first bill</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
