@@ -1,8 +1,9 @@
-# Money Manager Application
+# MONEY MANAGER
+#### Video Demo:  &lt;URL HERE>
+#### Description:
+Money Manager is a comprehensive personal finance management web application built with Flask. The application helps users track their income, expenses, bills, budgets, and tax records in one centralized platform.
 
-A comprehensive personal finance management application built with Flask that helps users track their income, expenses, bills, budgets, and tax records.
-
-## Features
+### Key Features:
 
 1. User Authentication
    - Secure login and registration
